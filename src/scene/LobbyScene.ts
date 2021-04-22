@@ -46,14 +46,13 @@ export class LobbyScene extends Phaser.Scene {
 
         // DEV.
         // Go quickly into the game scene with a predefined grid type.
-        // this._onGameStart(1);
+        this._onGameStart();
     }
 
     /**
-     * Called when the user selects a grid type. Starts the memory match game.
-     * @param grid_conf_ix the index of the desired grid configuration.
+     * Start the game scene.
      */
-    private _onGameStart(grid_conf_ix: any) {
+    private _onGameStart() {
         //
         var data: Object = {
             fromScene: GG.KEYS.SCENE.LOBBY,

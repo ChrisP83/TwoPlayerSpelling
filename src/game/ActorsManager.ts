@@ -24,7 +24,7 @@ export class ActorsManager {
         this.scene = scene;
         this._pools = [];
 
-        this._pools[GG.ACTOR_ID.CARD] = [];
+        this._pools[GG.ACTOR_ID.TOAST] = [];
 
         for (let i = 0; i < this.toastPoolSize; i++) {
             // this._pools[GG.ACTOR_ID.CARD].push(this.createNewCard(GG.CARD_TYPE.MIN));

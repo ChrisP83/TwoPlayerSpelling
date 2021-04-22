@@ -1,10 +1,10 @@
 import Phaser from "phaser";
 import * as GG from "../GG";
-// import { Card, CARD_EVENTS } from "../game/Card";
-import { LifeBar } from "../ui/LifeBar";
+import { Toast, TOAST_LETTER_FRAME_INDEXES } from "../game/Toast";
+// import { LifeBar } from "../ui/LifeBar";
+// import { ScaledButton } from "src/ui/ScaledButton";
 import { ActorsManager } from "../game/ActorsManager";
 import { Power2, TweenMax } from "gsap";
-import { ScaledButton } from "src/ui/ScaledButton";
 
 export class GameScene extends Phaser.Scene {
     bg: Phaser.GameObjects.Image;
@@ -14,14 +14,10 @@ export class GameScene extends Phaser.Scene {
      */
     actorsMng: ActorsManager;
 
-    gridSize: Phaser.Geom.Point;
-    gridCont: Phaser.GameObjects.Container;
-    gridPadding: Phaser.Geom.Point;
-
     /**
-     * All the cards.
+     * All the toasts.
      */
-    // TODO: toasts: Card[];
+    // TODO: toasts: Toast[];
     numMatches: number = 0;
 
     // todo: private _gameWonParticles: Phaser.GameObjects.Particles.ParticleEmitter;
@@ -39,18 +35,15 @@ export class GameScene extends Phaser.Scene {
         this.bg = this.add.image(0, 0, GG.KEYS.BACKGROUND).setOrigin(0, 0);
 
         // Card faces as an animation.
-        let card_face_frames = this.anims.generateFrameNames(GG.KEYS.ATLAS_SS1, { prefix: 'card', end: 10, zeroPad: 4 });
-        this.anims.create({ key: GG.KEYS.ANIMS.CARD_FACES, frames: card_face_frames, repeat: -1, frameRate: 30 });
+        let toast_frames = this.anims.generateFrameNames(GG.KEYS.ATLAS_SS1, { prefix: 'toast', end: 26, zeroPad: 4 });
+        this.anims.create({ key: GG.KEYS.ANIMS.TOAST_LETTERS, frames: toast_frames, repeat: -1, frameRate: 30 });
 
         // Actors pooling.
         this.actorsMng = new ActorsManager(this);
 
-        // Grid setup.
-        this.gridSize = new Phaser.Geom.Point(3, 4);
-        this.gridCont = this.add.container();
+        this._setupPlates();
+        this._setupToaster();
 
-        this.gridPadding = new Phaser.Geom.Point(10, 10);
-        
         this.fit();
         this.enableResizeListener();
 
@@ -63,10 +56,28 @@ export class GameScene extends Phaser.Scene {
         }
 
         // DEV.
-        // this.testCardCreation(); // OK.
-        // this.testCardPooling(); // OK.
+        this.testToastCreation(); // OK.
+        // this.testToastPooling(); // OK.
         // this._doGameWon(); // OK.
     }
+
+    //// setup.
+
+    /**
+     * Set up the plates and listeners.
+     */
+    private _setupPlates() {
+
+    }
+
+    /**
+     * Set up the toaster.
+     */
+    private _setupToaster() {
+
+    }
+
+    ////
 
     startGame() {
         this._isGameOver = false;
@@ -76,9 +87,6 @@ export class GameScene extends Phaser.Scene {
     update(time: number, delta_time: number) {
         if (this._isGameOver == true) { return; }
     }
-
-
-
 
     /**
      * Creates a particle based animation of cards falling on the screen like snowflakes.
@@ -160,7 +168,7 @@ export class GameScene extends Phaser.Scene {
         //     this.actorsMng.poolCard(card);
         // }
 
-        this.gridCont.removeAll();
+        // this.gridCont.removeAll();
         TweenMax.killAll();
 
         this.numMatches = 0;
@@ -192,13 +200,9 @@ export class GameScene extends Phaser.Scene {
     //     let c2 = this.actorsMng.getCard(GG.CARD_TYPE.DRAGON).setXY(500, 280);
     // }
 
-    // testCardCreation() {
-    //     let card1 = new Card(GG.CARD_TYPE.PIG, this, 0).setXY(200, 150);
-    //     card1.type = GG.CARD_TYPE.SPIDER;
-    //     let card2 = new Card(GG.CARD_TYPE.SPIDER, this, 1).setXY(500, 150);
-    //     card2.type = GG.CARD_TYPE.DRAGON
-    //     // let card3 = new Card(11, this).setXY(700, 150); // OK.
-    //     // let card4 = new Card(-1, this).setXY(700, 150); // OK.
-    // }
+    testToastCreation() {
+        let toast1 = new Toast(this).setXY(200, 200);
+        toast1.letter = "A";
+    }
 
 }

@@ -5,46 +5,8 @@
  * A global game space for the game's settings and easy shareables.
  */
 
-export const CARD_BACK_IX = 0;
-export const CARD_TYPE = {
-    BAT: 1,
-    CAT: 2,
-    COW: 3,
-    DRAGON: 4,
-    GARBAGE_MAN: 5,
-    GHOST_DOG: 6,
-    HEN: 7,
-    HORSE: 8,
-    PIG: 9,
-    SPIDER: 10,
-
-    /**
-     * Minimum allowed value.
-     */
-    MIN: 1,
-
-    /**
-     * Maximum allowed value.
-     */
-    MAX: 10
-}
-
-// export const CARD_FRAMES_NAMES = {
-//     BACK: 'card0000',
-//     BAT: 'card0001',
-//     CAT: 'card0002',
-//     COW: 'card0003',
-//     DRAGON: 'card0004',
-//     GARBAGE_MAN: 'card0005',
-//     GHOST_DOG: 'card0006',
-//     HEN: 'card0007',
-//     HORSE: 'card0008',
-//     PIG: 'card0009',
-//     SPIDER: 'card0010',
-// }
-
 export const ACTOR_ID = {
-    CARD: 0,
+    TOAST: 0,
     POOF_GFX: 1
 }
 
@@ -104,14 +66,21 @@ export const KEYS = {
     },
     /**
      * Atlas / Sprite sheet. 
-     * - card faces and back.
+     * - toast faces.
+     * - plate.
+     * - toaster and toaster button.
      * - back button.
      */
     ATLAS_SS1: 'ss1',
 
     ANIMS: {
-        CARD_FACES: 'card_faces',
+        TOAST_LETTERS: 'toast',
     },
+
+    PLATE: 'plate0000',
+    LOAF: 'toast0000',
+    LOAD_DISPENSER: 'loaf_dispenser0000',
+    TOASTER_BTN: 'toasterButton0000',
 
     SCENE: {
         PRELOAD: 'preload_scene',
