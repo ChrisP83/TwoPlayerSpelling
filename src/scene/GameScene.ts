@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import * as GG from "../GG";
 import { Toast, TOAST_LETTER_FRAME_INDEXES } from "../game/Toast";
+import { Plate } from "../game/Plate";
 // import { LifeBar } from "../ui/LifeBar";
 // import { ScaledButton } from "src/ui/ScaledButton";
 import { ActorsManager } from "../game/ActorsManager";
@@ -20,10 +21,12 @@ export class GameScene extends Phaser.Scene {
     // TODO: toasts: Toast[];
     numMatches: number = 0;
 
-    // todo: private _gameWonParticles: Phaser.GameObjects.Particles.ParticleEmitter;
-    private _isGameOver: boolean = false;
 
     ////
+
+    // todo: private _gameWonParticles: Phaser.GameObjects.Particles.ParticleEmitter;
+    private _isGameOver: boolean = false;
+    private _plates: Plate[];
 
     constructor() {
         super({
@@ -49,11 +52,11 @@ export class GameScene extends Phaser.Scene {
 
         this.startGame();
 
-        // Play the game instructions.
-        if (!GG.SHARED.gameInstrPlayed) {
-            // TODO: GG.soundManager.playSound(GG.KEYS.SFX.GAME_INSTR);
-            GG.SHARED.gameInstrPlayed = true
-        }
+        // TODO: Play the game instructions.
+        // if (!GG.SHARED.gameInstrPlayed) {
+        //     GG.soundManager.playSound(GG.KEYS.SFX.GAME_INSTR);
+        //     GG.SHARED.gameInstrPlayed = true
+        // }
 
         // DEV.
         this.testToastCreation(); // OK.
@@ -67,7 +70,11 @@ export class GameScene extends Phaser.Scene {
      * Set up the plates and listeners.
      */
     private _setupPlates() {
+        let plate1 = new Plate(this).setXY(290, 325);
+        let plate2 = new Plate(this).setXY(778, 325);
+        let plate3 = new Plate(this).setXY(1275, 325);
 
+        this._plates = [plate1, plate2, plate3];
     }
 
     /**
@@ -201,10 +208,10 @@ export class GameScene extends Phaser.Scene {
     // }
 
     testToastCreation() {
-        let toast1 = new Toast(this).setXY(200, 200);
+        let toast1 = new Toast(this).setXY(500, 800);
         toast1.letter = "A";
 
-        let toast2 = new Toast(this).setXY(700, 700);
+        let toast2 = new Toast(this).setXY(700, 900);
         toast2.letter = "B";
 
         let toast3 = new Toast(this).setXY(1000, 1000);
