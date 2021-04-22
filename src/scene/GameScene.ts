@@ -203,6 +203,12 @@ export class GameScene extends Phaser.Scene {
     testToastCreation() {
         let toast1 = new Toast(this).setXY(200, 200);
         toast1.letter = "A";
+
+        let toast2 = new Toast(this).setXY(700, 700);
+        toast2.letter = "B";
+
+        let toast3 = new Toast(this).setXY(1000, 1000);
+        toast3.letter = "C";
     }
 
 }

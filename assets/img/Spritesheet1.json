@@ -18,7 +18,7 @@
 },
 "toast0000":
 {
-	"frame": {"x":362,"y":2106,"w":348,"h":365},
+	"frame": {"x":1448,"y":2298,"w":348,"h":365},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":360,"h":381},
@@ -219,6 +219,14 @@
 "toast0025":
 {
 	"frame": {"x":0,"y":2106,"w":360,"h":381},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":360,"h":381},
+	"sourceSize": {"w":360,"h":381}
+},
+"toast0026":
+{
+	"frame": {"x":362,"y":2106,"w":360,"h":381},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":360,"h":381},
