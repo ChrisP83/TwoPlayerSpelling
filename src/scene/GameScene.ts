@@ -5,6 +5,7 @@ import { Toaster } from "../game/Toaster";
 import { Plate } from "../game/Plate";
 import { ActorsManager } from "../game/ActorsManager";
 import { Power2, TweenMax } from "gsap";
+import { ScaledButton } from "src/ui/ScaledButton";
 
 export class GameScene extends Phaser.Scene {
     bg: Phaser.GameObjects.Image;
@@ -26,6 +27,7 @@ export class GameScene extends Phaser.Scene {
     // todo: private _gameWonParticles: Phaser.GameObjects.Particles.ParticleEmitter;
     private _isGameOver: boolean = false;
     private _plates: Plate[];
+    private _cont: Phaser.GameObjects.Container;
 
     constructor() {
         super({
@@ -34,11 +36,15 @@ export class GameScene extends Phaser.Scene {
     }
 
     create(data: Object) {
+        this._cont = this.add.container();
         this.bg = this.add.image(0, 0, GG.KEYS.BACKGROUND).setOrigin(0, 0);
 
         // Card faces as an animation.
         let toast_frames = this.anims.generateFrameNames(GG.KEYS.ATLAS_SS1, { prefix: 'toast', end: 26, zeroPad: 4 });
         this.anims.create({ key: GG.KEYS.ANIMS.TOAST_LETTERS, frames: toast_frames, repeat: -1, frameRate: 30 });
+
+        // Max 3 simultaneous pointers.
+        this.input.addPointer(2);
 
         // Actors pooling.
         this.actorsMng = new ActorsManager(this);
@@ -46,7 +52,9 @@ export class GameScene extends Phaser.Scene {
         this._setupToaster();
         this._setupLoafDispenser();
         this.toasts = [];
-        
+
+        this._cont.add([this.loafDispenser, this.toaster.cont]);
+
         this.fit();
         this.enableResizeListener();
 
@@ -60,6 +68,7 @@ export class GameScene extends Phaser.Scene {
 
         // DEV.
         this.testToastCreation(); // OK.
+        // this.testDraggable();
         // this.testToastPooling(); // OK.
         // this._doGameWon(); // OK.
     }
@@ -75,6 +84,7 @@ export class GameScene extends Phaser.Scene {
         let plate3 = new Plate(this).setXY(1262, 284);
 
         this._plates = [plate1, plate2, plate3];
+        this._cont.add([plate1.spr, plate2.spr, plate3.spr]);
     }
 
     /**
@@ -151,13 +161,18 @@ export class GameScene extends Phaser.Scene {
         this.bg.x = Math.floor((screen_w - this.bg.displayWidth) * 0.5);
         this.bg.y = Math.floor((screen_h - this.bg.displayHeight) * 0.5);
 
-        // Fit the grid of cards.
-        if (screen_w > screen_h) {
-            this.fitLandscape();
-        }
-        else {
-            this.fitPortrait();
-        }
+        this.fitPortrait();
+
+        // Bring the game elements container to the top of the draw list.
+        this.children.bringToTop(this._cont);
+
+        // Fit the game elements.
+        // if (screen_w > screen_h) {
+        //     this.fitLandscape();
+        // }
+        // else {
+        //     this.fitPortrait();
+        // }
     }
 
     fitLandscape() {
@@ -171,6 +186,15 @@ export class GameScene extends Phaser.Scene {
         let screen_w: number = this.game.renderer.width;
         let screen_h: number = this.game.renderer.height;
 
+        let scale_x = screen_w / GG.GAME_DIMS.width;
+        let scale_y = screen_h / GG.GAME_DIMS.height;
+        let scale = Math.min(scale_x, scale_y);
+
+        this._cont.scale = scale;
+        let cont_bounds = this._cont.getBounds();
+
+        this._cont.x = (screen_w - cont_bounds.width) * 0.5;
+        this._cont.y = (screen_h - cont_bounds.height) * 0.5;
     }
 
     reset() {
@@ -220,6 +244,17 @@ export class GameScene extends Phaser.Scene {
 
         let toast3 = new Toast(this).setXY(1000, 1000);
         toast3.letter = "C";
+
+        this._cont.add([toast1.spr, toast2.spr, toast3.spr])
+    }
+
+    testDraggable() {
+        let spr = this.add.sprite(900, 400, GG.KEYS.ATLAS_SS1, GG.KEYS.LOAF).setInteractive({ draggable: true });
+        spr.on('drag', (pointer, drag_x, drag_y) => {
+            spr.x = drag_x;
+            spr.y = drag_y;
+        }, this);
+        this._cont.add(spr);
     }
 
 }

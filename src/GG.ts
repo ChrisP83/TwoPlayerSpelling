@@ -5,6 +5,11 @@
  * A global game space for the game's settings and easy shareables.
  */
 
+export const GAME_DIMS={
+    width: 1536,
+    height: 2048
+}
+
 export const ACTOR_ID = {
     TOAST: 0,
     POOF_GFX: 1

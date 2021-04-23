@@ -6,7 +6,7 @@ import { LobbyScene } from "./scene/LobbyScene";
 import { GameScene } from "./scene/GameScene";
 
 
-export class MemoryMatchGame {
+export class TwoPlayerSpelling {
     constructor() {
         const gameConfig = {
             type: Phaser.AUTO,
@@ -15,19 +15,19 @@ export class MemoryMatchGame {
             backgroundColor: '0xFFFFFF',//16777215,
             // resolution: window.devicePixelRatio,
             // resolution: 2,
-            // zoom: 0.5,
+            // zoom: 1,
             parent: "gamediv",
-            dom: {
-                createContainer: true
-            },
-            physics: {
-                default: "arcade",
-                arcade: {
-                    debug: false,
-                    fps: 60,
-                    gravity: { y: 0 }
-                }
-            },
+            // dom: {
+            //     createContainer: true
+            // },
+            // physics: {
+            //     default: "arcade",
+            //     arcade: {
+            //         debug: false,
+            //         fps: 60,
+            //         gravity: { y: 0 }
+            //     }
+            // },
             render: {
                 pixelArt: false,
                 clearBeforeRender: false,
@@ -36,15 +36,15 @@ export class MemoryMatchGame {
             },
             // disableContextMenu: true,
             // Setup the DB plugin.
-            plugins: {
-                // global: [
-                //     { key: "DragonBonesPlugin", plugin: dragonBones.phaser.plugin.DragonBonesPlugin, start: true } // setup DB plugin
-                // ]
+            // plugins: {
+            //     // global: [
+            //     //     { key: "DragonBonesPlugin", plugin: dragonBones.phaser.plugin.DragonBonesPlugin, start: true } // setup DB plugin
+            //     // ]
 
-                scene: [
-                    // Setup spine here if needed.
-                ]
-            },
+            //     scene: [
+            //         // Setup spine here if needed.
+            //     ]
+            // },
             scene: [
                 PreloadScene,
                 LoadScene,
@@ -65,5 +65,5 @@ export class MemoryMatchGame {
  * Soon as the basic stuff loads, start the Phaser preloading. 
  */
 window.onload = function () {
-    new MemoryMatchGame();
+    new TwoPlayerSpelling();
 }

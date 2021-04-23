@@ -22,13 +22,23 @@ export class Toast {
     private _frames: Phaser.Animations.AnimationFrame[];
 
     /**
-     * Constructs a new toast sprite.
+     * Constructs a new toast sprite and makes enables interactivity by default.
      * @param scene [Phaser.Scene] the scene the spr belongs to (also created by).
      */
     constructor(scene: Phaser.Scene) {
         this.spr = scene.add.sprite(0, 0, GG.KEYS.ATLAS_SS1)
             .play(GG.KEYS.ANIMS.TOAST_LETTERS)
             .stop();
+
+        //
+        // this.spr.setInteractive({ draggable: true, useHandCursor: true });
+        // this.spr.on('drag', (pointer, drag_x: number, drag_y: number) => {
+        //     this.spr.x = drag_x;
+        //     this.spr.y = drag_y;
+        // }, this);
+
+        // Interactive by default.
+        this.setInterractive();
 
         this._frames = this.spr.anims.currentAnim.frames;
         this._isToast = false;
@@ -44,20 +54,20 @@ export class Toast {
         return this;
     }
 
-    setInterractive(is_interractive: boolean) {
+    setInterractive(is_interractive: boolean = true) {
         if (is_interractive == true) {
-            this.spr.setInteractive({ useHandCursor: true });
-            this.spr.on("pointerdown", this._onPointerDown, this);
+            this.spr.setInteractive({ draggable: true, useHandCursor: true });
+            // this.spr.on("pointerdown", this._onPointerDown, this);
+            this.spr.on('drag', (pointer, drag_x: number, drag_y: number) => {
+                this.spr.x = drag_x;
+                this.spr.y = drag_y;
+            });
         }
         else {
             this.spr.disableInteractive();
-            this.spr.off("pointerdown", this._onPointerDown, this);
+            // this.spr.off("pointerdown", this._onPointerDown, this);
+            this.spr.off('drag', this._onDrag);
         }
-    }
-
-    private _onPointerDown(pointer, localX, localY, event) {
-        // this.emit(CARD_EVENTS.POINTER_DOWN, pointer, localX, localY, event, this);
-        // GG.soundManager.playSound(GG.KEYS.SFX.CARD);
     }
 
     reset() {
@@ -65,10 +75,24 @@ export class Toast {
         this.visible = false;
         this._isToast = false;
 
-        this.setInterractive(false);
+        // this.setInterractive(false);
         // TweenMax.killTweensOf(this);
 
         this.spr.scale = 1;
+    }
+
+    //// Handlers.
+    // TODO: ...
+    // private _onPointerDown(pointer, localX, localY, event) {
+    //     this.emit(CARD_EVENTS.POINTER_DOWN, pointer, localX, localY, event, this);
+    //     GG.soundManager.playSound(GG.KEYS.SFX.CARD);
+    // }
+
+    private _onDrag(pointer, drag_x: number, drag_y: number) {
+        console.log("pointer: ", pointer);
+        debugger
+        this.spr.x = drag_x;
+        this.spr.y = drag_y;
     }
 
     //// Setters and Getters.
