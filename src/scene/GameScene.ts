@@ -191,10 +191,11 @@ export class GameScene extends Phaser.Scene {
         let scale = Math.min(scale_x, scale_y);
 
         this._cont.scale = scale;
-        let cont_bounds = this._cont.getBounds();
+        let cont_w: number = GG.GAME_DIMS.width * scale;
+        let cont_h: number = GG.GAME_DIMS.height * scale;
 
-        this._cont.x = (screen_w - cont_bounds.width) * 0.5;
-        this._cont.y = (screen_h - cont_bounds.height) * 0.5;
+        this._cont.x = (screen_w - cont_w) * 0.5;
+        this._cont.y = (screen_h - cont_h) * 0.5;
     }
 
     reset() {
