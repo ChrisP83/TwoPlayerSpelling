@@ -1,9 +1,8 @@
 import Phaser from "phaser";
 import * as GG from "../GG";
-import { Toast, TOAST_LETTER_FRAME_INDEXES } from "../game/Toast";
+import { Toast } from "../game/Toast";
+import { Toaster } from "../game/Toaster";
 import { Plate } from "../game/Plate";
-// import { LifeBar } from "../ui/LifeBar";
-// import { ScaledButton } from "src/ui/ScaledButton";
 import { ActorsManager } from "../game/ActorsManager";
 import { Power2, TweenMax } from "gsap";
 
@@ -18,9 +17,9 @@ export class GameScene extends Phaser.Scene {
     /**
      * All the toasts.
      */
-    // TODO: toasts: Toast[];
-    numMatches: number = 0;
-
+    toasts: Toast[];
+    toaster: Toaster;
+    loafDispenser: Phaser.GameObjects.Sprite;
 
     ////
 
@@ -43,10 +42,11 @@ export class GameScene extends Phaser.Scene {
 
         // Actors pooling.
         this.actorsMng = new ActorsManager(this);
-
         this._setupPlates();
         this._setupToaster();
-
+        this._setupLoafDispenser();
+        this.toasts = [];
+        
         this.fit();
         this.enableResizeListener();
 
@@ -70,25 +70,31 @@ export class GameScene extends Phaser.Scene {
      * Set up the plates and listeners.
      */
     private _setupPlates() {
-        let plate1 = new Plate(this).setXY(290, 325);
-        let plate2 = new Plate(this).setXY(778, 325);
-        let plate3 = new Plate(this).setXY(1275, 325);
+        let plate1 = new Plate(this).setXY(278, 284);
+        let plate2 = new Plate(this).setXY(770, 284);
+        let plate3 = new Plate(this).setXY(1262, 284);
 
         this._plates = [plate1, plate2, plate3];
     }
 
     /**
-     * Set up the toaster.
+     * Sets up the toaster.
      */
     private _setupToaster() {
+        this.toaster = new Toaster(this).setXY(1058, 1716);
+    }
 
+    /**
+     * Sets up the loaf dispenser button.
+     */
+    private _setupLoafDispenser() {
+        this.loafDispenser = this.add.sprite(280, 1770, GG.KEYS.ATLAS_SS1, GG.KEYS.LOAF_DISPENSER);
     }
 
     ////
 
     startGame() {
         this._isGameOver = false;
-        this.numMatches = 0;
     }
 
     update(time: number, delta_time: number) {
@@ -168,17 +174,15 @@ export class GameScene extends Phaser.Scene {
     }
 
     reset() {
-        // TODO: reset toast actors.
-        // while (this.cards.length > 0) {
-        //     const card: Card = this.cards.pop();
-        //     card.off(CARD_EVENTS.POINTER_DOWN, this._onCardPointerDown, this);
-        //     this.actorsMng.poolCard(card);
-        // }
+        // Reset toast actors.
+        while (this.toasts.length > 0) {
+            const toast: Toast = this.toasts.pop();
+            // TODO: ...
+            // toast.spr.off("pointerdown", this._onToastPointerDown, this);
+            // this.actorsMng.poolToast(toast);
+        }
 
-        // this.gridCont.removeAll();
         TweenMax.killAll();
-
-        this.numMatches = 0;
     }
 
 

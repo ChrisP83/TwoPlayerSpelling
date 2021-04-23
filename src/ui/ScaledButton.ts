@@ -6,7 +6,11 @@ import { TweenMax } from "gsap";
  * Pointer events will be used via this game object.
  */
 export class ScaledButton {
+    /**
+     * The Sprite, Image or BitmapText game object to be scaled.
+     */
     go: Phaser.GameObjects.Sprite | Phaser.GameObjects.Image | Phaser.GameObjects.BitmapText;
+
     /**
      * Pass in a sprite, image or bitmap text as the game object to encapsulate.
      * The game object will ve set to interactive with hand cursor for mouse users.

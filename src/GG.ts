@@ -79,7 +79,9 @@ export const KEYS = {
 
     PLATE: 'plate0000',
     LOAF: 'toast0000',
-    LOAD_DISPENSER: 'loaf_dispenser0000',
+    LOAF_DISPENSER: 'loaf_dispenser0000',
+    TOASTER:'toaster0000',
+    TOASTER_BACK:'toaster_back0000',
     TOASTER_BTN: 'toasterButton0000',
 
     SCENE: {
@@ -97,9 +99,7 @@ export const KEYS = {
     BACKGROUND: 'background',
 
     UI: {
-        BTN_BACK: 'backBtn0000',
-        LIFE_BAR_BG: 'lifebar0000',
-        LIFE_BAR: 'lifebar0001',
+        BTN_BACK: 'backBtn0000'
     }
 };
 
