@@ -1,7 +1,7 @@
+import { Power3, TweenMax } from "gsap";
 import Phaser from "phaser";
 import { GameScene } from "src/scene/GameScene";
 import * as GG from '../GG';
-import SmolPhys from "./SmolPhys";
 
 export default class Toast {
 
@@ -23,7 +23,6 @@ export default class Toast {
 
     private _frames: Phaser.Animations.AnimationFrame[];
 
-    private _phys: SmolPhys;
     /**
      * Constructs a new toast sprite and makes enables interactivity by default.
      * @param scene [Phaser.Scene] the scene the spr belongs to (also created by).
@@ -33,7 +32,6 @@ export default class Toast {
             .play(GG.KEYS.ANIMS.TOAST_LETTERS)
             .stop();
         this.scene = scene;
-        this._phys = new SmolPhys(this.spr);
 
         // Interactive by default.
         this.setInterractive();
@@ -53,7 +51,7 @@ export default class Toast {
     }
 
     update(time: number, delta_time: number) {
-        this._phys.update(time, delta_time);
+        // this._smolPhys.update(time, delta_time);
     }
 
     setInterractive(is_interractive: boolean = true) {
@@ -83,8 +81,20 @@ export default class Toast {
     }
 
     //// Handlers.
-    private _onPointerUp() {
+    private _onPointerUp(pointer) {
         (this.scene as GameScene).checkToastToPlatesCase(this);
+
+        this.setInterractive(false);
+        TweenMax.to(this.spr, 0.25, {
+            x: this.spr.x + pointer.velocity.x * 17.5,
+            y: this.spr.y + pointer.velocity.y * 17.5,
+            ease: Power3.easeOut,
+            onComplete: () => {
+                this.setInterractive(true);
+                (this.scene as GameScene).checkToastToPlatesCase(this);
+            }
+        });
+
     }
     // TODO: ...
     // private _onPointerDown(pointer, localX, localY, event) {
