@@ -48,11 +48,11 @@ export default class Toaster {
             letter_btn5
         ];
 
-        this._wordBT = scene.add.bitmapText(0, 120, GG.KEYS.FONTS.HOMER_LEARNING_BOLD, '');
+        this._wordBT = scene.add.bitmapText(0, 135, GG.KEYS.FONTS.HOMER_LEARNING_BOLD, '');
         this._wordBT.originX = 0.5;
         this._wordBT.originY = 0.5;
         this._wordBT.tint = 0x6C737D;
-        this._wordBT.scale = 0.75;
+        this._wordBT.scale = 0.7;
 
         this._cont.add(this._wordBT);
     }
