@@ -6,7 +6,7 @@ import * as GG from "../GG";
  * Encapsulates pooling needs functionality.
  * Toasties, letters, and what ever else may need pooling functionality.
  */
-export class ActorsManager {
+export default class ActorsManager {
 
     scene: GameScene;
 

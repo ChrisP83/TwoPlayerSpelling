@@ -1,12 +1,11 @@
 import Phaser from "phaser";
 import * as GG from "../GG";
-import { Toast } from "../game/Toast";
-import { Toaster } from "../game/Toaster";
-import { Plate } from "../game/Plate";
-import { ActorsManager } from "../game/ActorsManager";
+import Toast from "../game/Toast";
+import Toaster from "../game/Toaster";
+import Plate from "../game/Plate";
+import ActorsManager from "../game/ActorsManager";
 import { Power2, TweenMax } from "gsap";
 import { iGameData } from "../game/iGameData";
-
 
 export class GameScene extends Phaser.Scene {
     bg: Phaser.GameObjects.Image;
@@ -87,9 +86,12 @@ export class GameScene extends Phaser.Scene {
 
         // DEV.
         this.testToastCreation(); // OK.
-        // this.testDraggable();
-        // this.testToastPooling(); // OK.
-        // this._doGameWon(); // OK.
+        // this.testDraggable(); // OK.
+        // this.testHomerFont(); // OK.
+        this.testToasterLettersButtons();
+
+        // this.testToastPooling(); // TODO.
+        // this._doGameWon(); // TODO.
     }
 
     //// helpers.
@@ -98,9 +100,9 @@ export class GameScene extends Phaser.Scene {
      * Set up the plates and listeners.
      */
     private _setupPlates() {
-        let plate1 = new Plate(this).setXY(278, 284);
-        let plate2 = new Plate(this).setXY(770, 284);
-        let plate3 = new Plate(this).setXY(1262, 284);
+        let plate1 = new Plate(this).setXY(278, 300);
+        let plate2 = new Plate(this).setXY(770, 300);
+        let plate3 = new Plate(this).setXY(1262, 300);
 
         this._plates = [plate1, plate2, plate3];
         this._cont.add([plate1.spr, plate2.spr, plate3.spr]);
@@ -110,7 +112,7 @@ export class GameScene extends Phaser.Scene {
      * Sets up the toaster.
      */
     private _setupToaster() {
-        this.toaster = new Toaster(this).setXY(1058, 1716); 3
+        this.toaster = new Toaster(this).setXY(787, 1830);
         this._cont.add(this.toaster.cont);
     }
 
@@ -325,6 +327,57 @@ export class GameScene extends Phaser.Scene {
             spr.y = drag_y;
         }, this);
         this._cont.add(spr);
+    }
+
+    testHomerFont() {
+        let bt1 = this.add.bitmapText(300, 300, GG.KEYS.FONTS.HOMER_LEARNING_BOLD, "abcd efg HIJK");
+        bt1.tint = 0x000000;
+
+        let bt2 = this.add.bitmapText(200, 500, GG.KEYS.FONTS.HOMER_LEARNING_BOLD, "hijklmnop");
+        bt2.tint = 0x6C737D;
+
+        let bt3 = this.add.bitmapText(200, 700, GG.KEYS.FONTS.HOMER_LEARNING_BOLD, "qrs tuv wxyz");
+        bt3.tint = 0xF4754E;
+
+    }
+
+    testToasterLettersButtons() {
+        // b,d,j,q,y, h, i,l, 
+        this.toaster.letterButtons[0].letter = 'b';
+        this.toaster.letterButtons[1].letter = 'd';
+        this.toaster.letterButtons[2].letter = 'q';
+        this.toaster.letterButtons[3].letter = 'j';
+        this.toaster.letterButtons[4].letter = 'y';
+
+        // this.toaster.letterButtons[0].letter = 'a';
+        // this.toaster.letterButtons[1].letter = 'b';
+        // this.toaster.letterButtons[2].letter = 'c';
+        // this.toaster.letterButtons[3].letter = 'd';
+        // this.toaster.letterButtons[4].letter = 'e';
+
+        // this.toaster.letterButtons[0].letter = 'h';
+        // this.toaster.letterButtons[1].letter = 'i';
+        // this.toaster.letterButtons[2].letter = 'j';
+        // this.toaster.letterButtons[3].letter = 'k';
+        // this.toaster.letterButtons[4].letter = 'l';
+
+        // this.toaster.letterButtons[0].letter = 'm';
+        // this.toaster.letterButtons[1].letter = 'n';
+        // this.toaster.letterButtons[2].letter = 'o';
+        // this.toaster.letterButtons[3].letter = 'p';
+        // this.toaster.letterButtons[4].letter = 'q';
+
+        // this.toaster.letterButtons[0].letter = 'r';
+        // this.toaster.letterButtons[1].letter = 's';
+        // this.toaster.letterButtons[2].letter = 't';
+        // this.toaster.letterButtons[3].letter = 'u';
+        // this.toaster.letterButtons[4].letter = 'v';
+
+        // this.toaster.letterButtons[0].letter = 'w';
+        // this.toaster.letterButtons[1].letter = 'x';
+        // this.toaster.letterButtons[2].letter = 'y';
+        // this.toaster.letterButtons[3].letter = 'z';
+
     }
 
 }

@@ -40,7 +40,8 @@ export const SETTINGS = {
  */
 export const KEYS = {
     FONTS: {
-        CHANGA_ONE: 'ChangaOne'
+        // CHANGA_ONE: 'ChangaOne',
+        HOMER_LEARNING_BOLD: 'HOMERLearningFont Bold'
     },
 
     /**
@@ -84,10 +85,11 @@ export const KEYS = {
 
     PLATE: 'plate0000',
     LOAF: 'toast0000',
-    LOAF_DISPENSER: 'loaf_dispenser0000',
+    // LOAF_DISPENSER: 'loaf_dispenser0000',
     TOASTER:'toaster0000',
-    TOASTER_BACK:'toaster_back0000',
+    // TOASTER_BACK:'toaster_back0000',
     TOASTER_BTN: 'toasterButton0000',
+    TOASTER_LETTER_BTN: 'toasterLetterButton0000',
 
     SCENE: {
         PRELOAD: 'preload_scene',

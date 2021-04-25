@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import * as GG from '../GG';
 
-export class Toast {
+export default class Toast {
 
     /**
      * Scene this plate belongs to.
