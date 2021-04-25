@@ -33,7 +33,6 @@ export default class Toaster {
         this.toastBtn = scene.add.sprite(385, -110, GG.KEYS.ATLAS_SS1, GG.KEYS.TOASTER_BTN);
         this.spr = scene.add.sprite(0, 0, GG.KEYS.ATLAS_SS1, GG.KEYS.TOASTER);
 
-
         this._cont.add([this.toastBtn, this.spr]);
         let letter_btn1 = new ToasterLetterButton(scene).setXY(-384, -44).addTo(this._cont);
         let letter_btn2 = new ToasterLetterButton(scene).setXY(-184, -44).addTo(this._cont);
@@ -48,6 +47,14 @@ export default class Toaster {
             letter_btn4,
             letter_btn5
         ];
+
+        this._wordBT = scene.add.bitmapText(0, 120, GG.KEYS.FONTS.HOMER_LEARNING_BOLD, '');
+        this._wordBT.originX = 0.5;
+        this._wordBT.originY = 0.5;
+        this._wordBT.tint = 0x6C737D;
+        this._wordBT.scale = 0.75;
+
+        this._cont.add(this._wordBT);
     }
 
     setXY(x: number, y: number): Toaster {

@@ -308,6 +308,8 @@ export class GameScene extends Phaser.Scene {
 
     testToastCreation() {
         this.word = this._drawWord();
+        this.toaster.word = this.word;
+
         let toast1 = new Toast(this).setXY(500, 800);
         toast1.letter = this.word.charAt(0);
 
