@@ -10,7 +10,8 @@ export class LoadScene extends Phaser.Scene {
     logoHere: Phaser.GameObjects.Image;
     preload() {
         this.load.bitmapFont(GG.KEYS.FONTS.CHANGA_ONE, "./assets/fonts/ChangaOne_0.png", "./assets/fonts/ChangaOne.fnt");
-        TODO: this.load.atlas(GG.KEYS.ATLAS_SS1, "./assets/img/Spritesheet1.png", "./assets/img/Spritesheet1.json");
+        this.load.atlas(GG.KEYS.ATLAS_SS1, "./assets/img/Spritesheet1.png", "./assets/img/Spritesheet1.json");
+        this.load.json(GG.KEYS.JSON_DATA, "./assets/data/audios.json");
 
         // TODO: Load the sfx sprite.
         // this.load.audio(GG.KEYS.SFX.ALL_SFX_SPRITE, ['assets/sfx/SoundSpriteSheet1.mp3', 'assets/sfx/SoundSpriteSheet1.ogg']);

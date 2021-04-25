@@ -58,15 +58,12 @@ export class Toast {
         if (is_interractive == true) {
             this.spr.setInteractive({ draggable: true, useHandCursor: true });
             // this.spr.on("pointerdown", this._onPointerDown, this);
-            this.spr.on('drag', (pointer, drag_x: number, drag_y: number) => {
-                this.spr.x = drag_x;
-                this.spr.y = drag_y;
-            });
+            // this.spr.on('drag', this._onDrag, this);
         }
         else {
             this.spr.disableInteractive();
             // this.spr.off("pointerdown", this._onPointerDown, this);
-            this.spr.off('drag', this._onDrag);
+            // this.spr.off('drag', this._onDrag);
         }
     }
 
@@ -88,12 +85,11 @@ export class Toast {
     //     GG.soundManager.playSound(GG.KEYS.SFX.CARD);
     // }
 
-    private _onDrag(pointer, drag_x: number, drag_y: number) {
-        console.log("pointer: ", pointer);
-        debugger
-        this.spr.x = drag_x;
-        this.spr.y = drag_y;
-    }
+    // Keeping all the dragging in the Scene.input.
+    // private _onDrag(pointer, drag_x: number, drag_y: number) {
+    //     this.spr.x = drag_x;
+    //     this.spr.y = drag_y;
+    // }
 
     //// Setters and Getters.
 

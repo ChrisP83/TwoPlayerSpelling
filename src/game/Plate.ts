@@ -24,7 +24,8 @@ export class Plate {
      * @param scene [Phaser.Scene] the scene the spr belongs to (also created by).
      */
     constructor(scene: Phaser.Scene) {
-        this.spr = scene.add.sprite(0, 0, GG.KEYS.ATLAS_SS1, GG.KEYS.PLATE);
+        this.spr = scene.add.sprite(0, 0, GG.KEYS.ATLAS_SS1, GG.KEYS.PLATE).setInteractive();
+        this.spr.input.dropZone = true;
     }
 
     setXY(x: number, y: number): Plate {

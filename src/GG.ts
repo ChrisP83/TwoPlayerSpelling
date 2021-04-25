@@ -77,7 +77,7 @@ export const KEYS = {
      * - back button.
      */
     ATLAS_SS1: 'ss1',
-
+    JSON_DATA:'json_data',
     ANIMS: {
         TOAST_LETTERS: 'toast',
     },
@@ -157,3 +157,18 @@ export const SHARED = {
  * Shared musicManager to easilly play music in any scene.
  */
 // export const musicManager: MusicManager = new MusicManager();
+
+
+/**
+ * Describes a game data object that is expected to be extracted from a json file (e.g.: audios.json).
+ * Provides code completion when using the data.
+ */
+interface iGameData {
+    words: string[]
+    phrases: {
+        corrects: string[]
+        intros: string[]
+        outros: string[]
+        prompts: string[]
+    }
+}
