@@ -155,6 +155,11 @@ export class GameScene extends Phaser.Scene {
 
     update(time: number, delta_time: number) {
         if (this._isGameOver == true) { return; }
+        let toasts_len: number = this.toasts.length;
+        for (let i = 0; i < toasts_len; i++) {
+            const toast: Toast = this.toasts[i];
+            toast.update(time, delta_time);
+        }
     }
 
     //// Fitting.
@@ -281,7 +286,6 @@ export class GameScene extends Phaser.Scene {
     }
 
     enableDragging() {
-
         this.input.on('dragstart', (pointer, game_obj) => {
             this._cont.bringToTop(game_obj);
         }, this);
@@ -291,12 +295,61 @@ export class GameScene extends Phaser.Scene {
             game_obj.y = drag_y;
         });
 
-        this.input.on('drop', (pointer, game_obj, drop_zone) => {
-            // game_obj.x = drop_zone.x;
-            // game_obj.y = drop_zone.y;
+        // this.input.on('drop', (pointer, game_obj, drop_zone) => {
+        //     // 1) If the pointer is on a drop_zone, move to the drop_zone.
+        //     if (drop_zone) {
+        //         TweenMax.to(game_obj, 0.25, { x: drop_zone.x, y: drop_zone.y });
+        //         return;
+        //     }
 
-            TweenMax.to(game_obj, 0.25, { x: drop_zone.x, y: drop_zone.y });
-        }, this);
+        //     // 2) Else if the game_obj intersects one of the plates (drop zones) move to the plate.
+
+        // }, this);
+
+        // this.input.on('pointerup', () => {
+        // });
+    }
+
+    /**
+     * 
+     * @param toast 
+     */
+    checkToastToPlatesCase(toast: Toast) {
+        // First, try all the plates and keep track of intersections.
+        let intersect_plates: Plate[] = [];
+        let plates_len: number = this._plates.length;
+        for (let i = 0; i < plates_len; i++) {
+            const plate: Plate = this._plates[i];
+            let rect = Phaser.Geom.Rectangle.Intersection(plate.spr.getBounds(), toast.spr.getBounds());
+            if (rect.width > 75 && rect.height > 80) {
+                intersect_plates.push(plate);
+            }
+        }
+
+        // If we have any plate intersection keep the shortest distance to the toast.
+        if (intersect_plates.length > 0) {
+            
+            // Assume the first entry is the right one.
+            let result_plate: Plate = undefined;// Closest plate to the toast / toast.
+            let shortest_dist_to_plate: number = 81000001; // OVER 9000 squared!
+            
+            // Check for distance to the other entries.
+            let intersect_plates_len = intersect_plates.length;
+            for (let i = 0; i < intersect_plates_len; i++) {
+                const plate: Plate = intersect_plates[i];
+                // Use the squared distance, no need to use sqrt.
+                let dist = Phaser.Math.Distance.Squared(plate.spr.x, plate.spr.y, toast.spr.x, toast.spr.y);
+
+                if (dist < shortest_dist_to_plate) {
+                    shortest_dist_to_plate = dist;
+                    result_plate = plate;
+                }
+            }
+
+            // Move the toast to the result plate.
+            TweenMax.to(toast.spr, 0.25, { x: result_plate.spr.x, y: result_plate.spr.y });
+            return;
+        }
     }
 
     ////
@@ -319,6 +372,7 @@ export class GameScene extends Phaser.Scene {
         let toast3 = new Toast(this).setXY(1000, 1000);
         toast3.letter = this.word.charAt(2);
 
+        this.toasts.push(toast1, toast2, toast3);
         this._cont.add([toast1.spr, toast2.spr, toast3.spr])
     }
 

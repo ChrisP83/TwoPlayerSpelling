@@ -1,5 +1,7 @@
 import Phaser from "phaser";
+import { GameScene } from "src/scene/GameScene";
 import * as GG from '../GG';
+import SmolPhys from "./SmolPhys";
 
 export default class Toast {
 
@@ -21,6 +23,7 @@ export default class Toast {
 
     private _frames: Phaser.Animations.AnimationFrame[];
 
+    private _phys: SmolPhys;
     /**
      * Constructs a new toast sprite and makes enables interactivity by default.
      * @param scene [Phaser.Scene] the scene the spr belongs to (also created by).
@@ -29,13 +32,8 @@ export default class Toast {
         this.spr = scene.add.sprite(0, 0, GG.KEYS.ATLAS_SS1)
             .play(GG.KEYS.ANIMS.TOAST_LETTERS)
             .stop();
-
-        //
-        // this.spr.setInteractive({ draggable: true, useHandCursor: true });
-        // this.spr.on('drag', (pointer, drag_x: number, drag_y: number) => {
-        //     this.spr.x = drag_x;
-        //     this.spr.y = drag_y;
-        // }, this);
+        this.scene = scene;
+        this._phys = new SmolPhys(this.spr);
 
         // Interactive by default.
         this.setInterractive();
@@ -54,16 +52,22 @@ export default class Toast {
         return this;
     }
 
+    update(time: number, delta_time: number) {
+        this._phys.update(time, delta_time);
+    }
+
     setInterractive(is_interractive: boolean = true) {
         if (is_interractive == true) {
             this.spr.setInteractive({ draggable: true, useHandCursor: true });
             // this.spr.on("pointerdown", this._onPointerDown, this);
             // this.spr.on('drag', this._onDrag, this);
+            this.spr.on('pointerup', this._onPointerUp, this);
         }
         else {
             this.spr.disableInteractive();
             // this.spr.off("pointerdown", this._onPointerDown, this);
             // this.spr.off('drag', this._onDrag);
+            this.spr.off('pointerup', this._onPointerUp, this);
         }
     }
 
@@ -79,6 +83,9 @@ export default class Toast {
     }
 
     //// Handlers.
+    private _onPointerUp() {
+        (this.scene as GameScene).checkToastToPlatesCase(this);
+    }
     // TODO: ...
     // private _onPointerDown(pointer, localX, localY, event) {
     //     this.emit(CARD_EVENTS.POINTER_DOWN, pointer, localX, localY, event, this);
