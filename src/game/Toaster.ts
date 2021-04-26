@@ -71,6 +71,14 @@ export default class Toaster {
         return this;
     }
 
+    setLetters(letters: string[]) {
+        let length = Math.min(letters.length, this.letterButtons.length);
+
+        for (let i = 0; i < length; i++) {
+            this.letterButtons[i].letter = letters[i];
+        }
+    }
+
     private _onLetterBtnPointerDown(pointer: Phaser.Input.Pointer, x: number, y: number, event, tlb: ToasterLetterButton) {
 
         let start_x = this._cont.x + this.spr.x + tlb.spr.x;
@@ -100,7 +108,6 @@ export default class Toaster {
         this._word = new_word.toLowerCase();
         this._wordBT.text = this._word;
     }
-
 
     ////
 

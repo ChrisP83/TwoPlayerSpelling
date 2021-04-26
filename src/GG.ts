@@ -5,10 +5,20 @@
  * A global game space for the game's settings and easy shareables.
  */
 
-export const GAME_DIMS={
+export const GAME_DIMS = {
     width: 1536,
     height: 2048
 }
+
+/**
+ * Number of letters in a word.
+ */
+export const NUM_WORD_LETTERS = 3;
+
+/**
+ * The number of buttons and toaster letters.
+ */
+export const NUM_TOASTER_LETTERS = 5;
 
 export const ACTOR_ID = {
     TOAST: 0,
@@ -78,7 +88,7 @@ export const KEYS = {
      * - back button.
      */
     ATLAS_SS1: 'ss1',
-    JSON_DATA:'json_data',
+    JSON_DATA: 'json_data',
     ANIMS: {
         TOAST_LETTERS: 'toast',
     },
@@ -86,7 +96,7 @@ export const KEYS = {
     PLATE: 'plate0000',
     LOAF: 'toast0000',
     // LOAF_DISPENSER: 'loaf_dispenser0000',
-    TOASTER:'toaster0000',
+    TOASTER: 'toaster0000',
     // TOASTER_BACK:'toaster_back0000',
     TOASTER_BTN: 'toasterButton0000',
     TOASTER_LETTER_BTN: 'toasterLetterButton0000',

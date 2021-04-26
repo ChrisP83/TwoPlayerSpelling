@@ -85,10 +85,10 @@ export default class GameScene extends Phaser.Scene {
         // }
 
         // DEV.
-        this.testToastCreation(); // OK.
+        // this.testToastCreation(); // OK.
         // this.testDraggable(); // OK.
         // this.testHomerFont(); // OK.
-        this.testToasterLettersButtons();
+        // this.testToasterLettersButtons();// OK.
 
         // this.testToastPooling(); // TODO.
         // this._doGameWon(); // TODO.
@@ -135,22 +135,11 @@ export default class GameScene extends Phaser.Scene {
         Phaser.Utils.Array.Shuffle(this.words);
     }
 
-    /**
-     * Draws a word from the array of words. If the array of words is empty it resets it to full and shuffled.
-     * @returns a word from the list of words.
-     */
-    private _drawWord(): string {
-        if (this.words.length > 0)
-            return this.words.pop();
-
-        this._setupWords();
-        return this.words.pop();
-    }
-
     //// start, update.
 
     startGame() {
         this._isGameOver = false;
+        this.setNewWord();
     }
 
     update(time: number, delta_time: number) {
@@ -215,6 +204,8 @@ export default class GameScene extends Phaser.Scene {
         this._cont.y = (screen_h - cont_h) * 0.5;
     }
 
+    //// game won / lost.
+
     /**
      * Creates a particle based animation of cards falling on the screen like snowflakes.
      */
@@ -243,6 +234,7 @@ export default class GameScene extends Phaser.Scene {
         // TODO: GG.soundManager.playSound(GG.KEYS.SFX.GAME_LOST);
     }
 
+    //// scene traversal.
     /**
      * 
      */
@@ -252,19 +244,9 @@ export default class GameScene extends Phaser.Scene {
         this.scene.start(GG.KEYS.SCENE.LOBBY, { fromScene: GG.KEYS.SCENE.GAME });
     }
 
-    //// reset, drag, resize.
+    //// drag, resize.
 
-    reset() {
-        // Reset toast actors.
-        while (this.toasts.length > 0) {
-            const toast: Toast = this.toasts.pop();
-            // TODO: ...
-            // toast.spr.off("pointerdown", this._onToastPointerDown, this);
-            // this.actorsMng.poolToast(toast);
-        }
 
-        TweenMax.killAll();
-    }
 
 
     /**
@@ -294,20 +276,48 @@ export default class GameScene extends Phaser.Scene {
             game_obj.x = drag_x;
             game_obj.y = drag_y;
         });
+    }
 
-        // this.input.on('drop', (pointer, game_obj, drop_zone) => {
-        //     // 1) If the pointer is on a drop_zone, move to the drop_zone.
-        //     if (drop_zone) {
-        //         TweenMax.to(game_obj, 0.25, { x: drop_zone.x, y: drop_zone.y });
-        //         return;
-        //     }
+    //// game logic.
 
-        //     // 2) Else if the game_obj intersects one of the plates (drop zones) move to the plate.
+    /**
+     * Sets a new word and updates the toaster letters and winning condition checks for the newly picked word.
+     */
+    setNewWord() {
+        // Pick a new word.
+        this.word = this._pickWord();
+        this.toaster.word = this.word;
 
-        // }, this);
+        // Letters.
+        let low_case_alphabet = [
+            "a", "b", "c", "d", "e", "f", "g",
+            "h", "i", "j", "k", "l", "m", "n",
+            "o", "p", "q", "r", "s", "t", "u",
+            "v", "w", "x", "y", "z"];
 
-        // this.input.on('pointerup', () => {
-        // });
+        // Remove the ones that are already in the word.
+        let word_letters = this.word.split("");
+        let toaster_letters: string[] = [];
+        word_letters.forEach((letter: string) => {
+            let ix = low_case_alphabet.indexOf(letter);
+            // Letters already removed or not in the low case (allowed) alphabet are ignored.
+            if (ix > -1) {
+                toaster_letters.push(letter);
+                low_case_alphabet.splice(ix, 1);
+            }
+        });
+
+        // Fill the rest of the letters from the low_case_alphabet.
+        Phaser.Utils.Array.Shuffle(low_case_alphabet) // Shuffle the rest of the lower case letters.
+        for (let i = toaster_letters.length; i < GG.NUM_TOASTER_LETTERS; i++) {
+            toaster_letters.push(low_case_alphabet.pop());
+        }
+        
+        // Shuffle the result, otherwise the kids' side might get a clue of where the correct letters "always are" are!
+        Phaser.Utils.Array.Shuffle(toaster_letters);
+
+        // Update the toaster and game on!
+        this.toaster.setLetters(toaster_letters);
     }
 
     /**
@@ -377,6 +387,32 @@ export default class GameScene extends Phaser.Scene {
         });
     }
 
+    /**
+     * Picks a word from the array of words. If the array of words is empty it resets it to full and shuffled.
+     * @returns a word from the list of words.
+     */
+    private _pickWord(): string {
+        if (this.words.length > 0)
+            return this.words.pop();
+
+        this._setupWords();
+        return this.words.pop();
+    }
+
+    //// reset and cleanups.
+
+    reset() {
+        // Reset toast actors.
+        while (this.toasts.length > 0) {
+            const toast: Toast = this.toasts.pop();
+            // TODO: ...
+            // toast.spr.off("pointerdown", this._onToastPointerDown, this);
+            // this.actorsMng.poolToast(toast);
+        }
+
+        TweenMax.killAll();
+    }
+
     ////
 
     // testCardPooling() {
@@ -385,7 +421,7 @@ export default class GameScene extends Phaser.Scene {
     // }
 
     testToastCreation() {
-        this.word = this._drawWord();
+        this.word = this._pickWord();
         this.toaster.word = this.word;
 
         let toast1 = new Toast(this).setXY(500, 800);
