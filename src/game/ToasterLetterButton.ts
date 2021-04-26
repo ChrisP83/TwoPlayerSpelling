@@ -26,6 +26,10 @@ export default class ToasterLetterButton extends Phaser.Events.EventEmitter {
         this.setInterractive();
     }
 
+    get letter(): string {
+        return this._letter;
+    }
+
     set letter(new_letter: string) {
         this._letter = new_letter.toLocaleLowerCase();
 
@@ -44,7 +48,7 @@ export default class ToasterLetterButton extends Phaser.Events.EventEmitter {
 
             case 'j':
                 this.letterBT.originY = 0.55;
-            break;
+                break;
 
             case 'k':
                 this.letterBT.originY = 0.4;
@@ -107,7 +111,6 @@ export default class ToasterLetterButton extends Phaser.Events.EventEmitter {
     ////
 
     private _onPointerDown(pointer, localX, localY, event) {
-        console.log("ToasterLetterButton _onPointerDown...", this._letter);
         this.emit(TLB_EVENTS.POINTER_DOWN, pointer, localX, localY, event, this);
         // TODO: GG.soundManager.playSound(GG.KEYS.SFX.BUTTON_PRESS);
     }

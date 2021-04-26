@@ -3,7 +3,7 @@ import * as GG from "./GG";
 import { PreloadScene } from "./scene/PreloadScene";
 import { LoadScene } from "./scene/LoadScene";
 import { LobbyScene } from "./scene/LobbyScene";
-import { GameScene } from "./scene/GameScene";
+import GameScene from "./scene/GameScene";
 
 
 export class TwoPlayerSpelling {

@@ -1,6 +1,5 @@
-import { GameScene } from "../scene/GameScene";
+import GameScene from "../scene/GameScene";
 import * as GG from "../GG";
-// import { Card } from "./Card";
 
 /**
  * Encapsulates pooling needs functionality.

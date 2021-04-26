@@ -4,10 +4,10 @@ import Toast from "../game/Toast";
 import Toaster from "../game/Toaster";
 import Plate from "../game/Plate";
 import ActorsManager from "../game/ActorsManager";
-import { Power2, TweenMax } from "gsap";
+import { Power2, Power3, TweenMax } from "gsap";
 import { iGameData } from "../game/iGameData";
 
-export class GameScene extends Phaser.Scene {
+export default class GameScene extends Phaser.Scene {
     bg: Phaser.GameObjects.Image;
 
     /**
@@ -328,11 +328,11 @@ export class GameScene extends Phaser.Scene {
 
         // If we have any plate intersection keep the shortest distance to the toast.
         if (intersect_plates.length > 0) {
-            
+
             // Assume the first entry is the right one.
             let result_plate: Plate = undefined;// Closest plate to the toast / toast.
             let shortest_dist_to_plate: number = 81000001; // OVER 9000 squared!
-            
+
             // Check for distance to the other entries.
             let intersect_plates_len = intersect_plates.length;
             for (let i = 0; i < intersect_plates_len; i++) {
@@ -350,6 +350,31 @@ export class GameScene extends Phaser.Scene {
             TweenMax.to(toast.spr, 0.25, { x: result_plate.spr.x, y: result_plate.spr.y });
             return;
         }
+    }
+
+    launchToastLetter(
+        start_x: number, start_y: number, end_x: number, end_y: number,
+        start_rotation: number, end_rotation: number, letter: string) {
+
+        let toast = new Toast(this).setXY(start_x, start_y);
+        toast.letter = letter;
+        toast.spr.rotation = start_rotation;
+
+        this.toasts.push(toast);
+        this._cont.add(toast.spr);
+        this._cont.bringToTop(this.toaster.cont);
+
+        toast.setInterractive(false);
+        TweenMax.to(toast.spr, 1, {
+            x: end_x,
+            y: end_y,
+            rotation: end_rotation,
+            ease: Power3.easeOut,
+            onComplete: () => {
+                toast.setInterractive(true);
+            },
+            onCompleteScope: this
+        });
     }
 
     ////

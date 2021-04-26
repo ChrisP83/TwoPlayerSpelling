@@ -1,6 +1,6 @@
 import { Power3, TweenMax } from "gsap";
 import Phaser from "phaser";
-import { GameScene } from "src/scene/GameScene";
+import GameScene from "src/scene/GameScene";
 import * as GG from '../GG';
 
 export default class Toast {
@@ -8,7 +8,7 @@ export default class Toast {
     /**
      * Scene this plate belongs to.
      */
-    scene: Phaser.Scene;
+    scene: GameScene;
 
     spr: Phaser.GameObjects.Sprite;
 
@@ -27,7 +27,7 @@ export default class Toast {
      * Constructs a new toast sprite and makes enables interactivity by default.
      * @param scene [Phaser.Scene] the scene the spr belongs to (also created by).
      */
-    constructor(scene: Phaser.Scene) {
+    constructor(scene: GameScene) {
         this.spr = scene.add.sprite(0, 0, GG.KEYS.ATLAS_SS1)
             .play(GG.KEYS.ANIMS.TOAST_LETTERS)
             .stop();
@@ -82,7 +82,7 @@ export default class Toast {
 
     //// Handlers.
     private _onPointerUp(pointer) {
-        (this.scene as GameScene).checkToastToPlatesCase(this);
+        this.scene.checkToastToPlatesCase(this);
 
         this.setInterractive(false);
         TweenMax.to(this.spr, 0.25, {
@@ -91,8 +91,9 @@ export default class Toast {
             ease: Power3.easeOut,
             onComplete: () => {
                 this.setInterractive(true);
-                (this.scene as GameScene).checkToastToPlatesCase(this);
-            }
+                this.scene.checkToastToPlatesCase(this);
+            },
+            onCompleteScope: this
         });
 
     }
@@ -131,7 +132,6 @@ export default class Toast {
 
         if (index != 0 && !index) {
             index = 0;
-            debugger
             console.warn("Cannot set Toast letter to: '%s', it is not a valid letter frame or choice!", new_letter);
             this._isToast = false;
             this._letter = "NONE";
