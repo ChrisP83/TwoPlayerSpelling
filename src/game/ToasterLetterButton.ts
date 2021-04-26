@@ -18,9 +18,9 @@ export default class ToasterLetterButton extends Phaser.Events.EventEmitter {
 
         this.spr = scene.add.sprite(0, 0, GG.KEYS.ATLAS_SS1, GG.KEYS.TOASTER_LETTER_BTN);
         this.letterBT = scene.add.bitmapText(0, 0, GG.KEYS.FONTS.HOMER_LEARNING_BOLD, '');
-        this.letterBT.originX = 0.5;
-        this.letterBT.originY = 0.45;
-        this.letterBT.tint = 0x000000;
+        this.letterBT.originX = 0.45;
+        this.letterBT.originY = 0.4;
+        this.letterBT.tint = 0x050522;
         this.letterBT.scale = 0.85;
 
         this.setInterractive();
@@ -34,48 +34,19 @@ export default class ToasterLetterButton extends Phaser.Events.EventEmitter {
         this._letter = new_letter.toLocaleLowerCase();
 
         switch (this._letter) {
-            case 'b':
-                this.letterBT.originY = 0.4;
-                break;
-
-            case 'd':
-                this.letterBT.originY = 0.4;
-                break;
-
-            case 'h':
-                this.letterBT.originY = 0.4;
-                break;
-
-            case 'j':
-                this.letterBT.originY = 0.55;
-                break;
-
-            case 'k':
-                this.letterBT.originY = 0.4;
-                break;
-
-            case 'l':
-                this.letterBT.originY = 0.4;
-                break;
-
-            case 'p':
-                this.letterBT.originY = 0.55;
-                break;
-
-            case 'q':
-                this.letterBT.originY = 0.55;
-                break;
-
-            case 'y':
-                this.letterBT.originY = 0.55;
+            case 'w':
+                this.letterBT.originX = 0.475;
+                this.letterBT.scale = 0.82;
                 break;
 
             default:
-                this.letterBT.originY = 0.45;
+                this.letterBT.originY = 0.5;
+                this.letterBT.originY = 0.4;
+                this.letterBT.scale = 0.85;
                 break;
         }
 
-        this.letterBT.text = this._letter;
+        this.letterBT.text = this._letter.toUpperCase();
     }
 
     setXY(x: number, y: number): ToasterLetterButton {

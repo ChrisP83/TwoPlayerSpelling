@@ -35,11 +35,11 @@ export default class Toaster {
         this.spr = scene.add.sprite(0, 0, GG.KEYS.ATLAS_SS1, GG.KEYS.TOASTER);
 
         this._cont.add([this.toastBtn, this.spr]);
-        let letter_btn1 = new ToasterLetterButton(scene).setXY(-384, -44).addTo(this._cont);
-        let letter_btn2 = new ToasterLetterButton(scene).setXY(-184, -44).addTo(this._cont);
-        let letter_btn3 = new ToasterLetterButton(scene).setXY(16, -44).addTo(this._cont);
-        let letter_btn4 = new ToasterLetterButton(scene).setXY(214, -44).addTo(this._cont);
-        let letter_btn5 = new ToasterLetterButton(scene).setXY(414, -44).addTo(this._cont);
+        let letter_btn1 = new ToasterLetterButton(scene).setXY(-384, -174).addTo(this._cont);
+        let letter_btn2 = new ToasterLetterButton(scene).setXY(-174, -174).addTo(this._cont);
+        let letter_btn3 = new ToasterLetterButton(scene).setXY(26, -174).addTo(this._cont);
+        let letter_btn4 = new ToasterLetterButton(scene).setXY(224, -174).addTo(this._cont);
+        let letter_btn5 = new ToasterLetterButton(scene).setXY(424, -174).addTo(this._cont);
 
         this.letterButtons = [
             letter_btn1,
@@ -53,11 +53,11 @@ export default class Toaster {
             letter_btn.on(TLB_EVENTS.POINTER_DOWN, this._onLetterBtnPointerDown, this);
         });
 
-        this._wordBT = scene.add.bitmapText(0, 135, GG.KEYS.FONTS.HOMER_LEARNING_BOLD, '');
+        this._wordBT = scene.add.bitmapText(0, 72, GG.KEYS.FONTS.HOMER_LEARNING_BOLD, '');
         this._wordBT.originX = 0.5;
         this._wordBT.originY = 0.5;
         this._wordBT.tint = 0x6C737D;
-        this._wordBT.scale = 0.7;
+        this._wordBT.scale = 1.0;
 
         this._cont.add(this._wordBT);
     }
@@ -105,7 +105,7 @@ export default class Toaster {
     }
 
     set word(new_word: string) {
-        this._word = new_word.toLowerCase();
+        this._word = new_word.toUpperCase();
         this._wordBT.text = this._word;
     }
 

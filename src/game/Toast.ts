@@ -83,24 +83,24 @@ export default class Toast {
     //// Handlers.
     private _onPointerUp(pointer) {
         this.scene.checkToastToPlatesCase(this);
-        this.setInterractive(false);
+        // this.setInterractive(false);
         // pointer.velocity.x = Math.max(pointer.velocity.x, 10);
         // pointer.velocity.y = Math.max(pointer.velocity.y, 10);
-        TweenMax.to(this.spr, 0.25, {
-            // x: this.spr.x + pointer.velocity.x * 17.5,
-            // y: this.spr.y + pointer.velocity.y * 17.5,
-            ease: Power3.easeOut,
-            onUpdate: () => {
-                // this.spr.x += pointer.velocity.x;
-                // this.spr.y += pointer.velocity.y;
-            },
-            onUpdateScope: this,
-            onComplete: () => {
-                this.setInterractive(true);
-                this.scene.checkToastToPlatesCase(this);
-            },
-            onCompleteScope: this
-        });
+        // TweenMax.to(this.spr, 0.25, {
+        //     // x: this.spr.x + pointer.velocity.x * 17.5,
+        //     // y: this.spr.y + pointer.velocity.y * 17.5,
+        //     ease: Power3.easeOut,
+        //     onUpdate: () => {
+        //         // this.spr.x += pointer.velocity.x;
+        //         // this.spr.y += pointer.velocity.y;
+        //     },
+        //     onUpdateScope: this,
+        //     onComplete: () => {
+        //         this.setInterractive(true);
+        //         this.scene.checkToastToPlatesCase(this);
+        //     },
+        //     onCompleteScope: this
+        // });
 
     }
     // TODO: ...

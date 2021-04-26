@@ -88,7 +88,7 @@ export default class GameScene extends Phaser.Scene {
         // this.testToastCreation(); // OK.
         // this.testDraggable(); // OK.
         // this.testHomerFont(); // OK.
-        // this.testToasterLettersButtons();// OK.
+        this.testToasterLettersButtons();// PROGRES.
 
         // this.testToastPooling(); // TODO.
         // this._doGameWon(); // TODO.
@@ -112,7 +112,7 @@ export default class GameScene extends Phaser.Scene {
      * Sets up the toaster.
      */
     private _setupToaster() {
-        this.toaster = new Toaster(this).setXY(787, 1830);
+        this.toaster = new Toaster(this).setXY(787, 1920);
         this._cont.add(this.toaster.cont);
     }
 
@@ -459,12 +459,11 @@ export default class GameScene extends Phaser.Scene {
     }
 
     testToasterLettersButtons() {
-        // b,d,j,q,y, h, i,l, 
-        this.toaster.letterButtons[0].letter = 'b';
-        this.toaster.letterButtons[1].letter = 'd';
-        this.toaster.letterButtons[2].letter = 'q';
-        this.toaster.letterButtons[3].letter = 'j';
-        this.toaster.letterButtons[4].letter = 'y';
+        // this.toaster.letterButtons[0].letter = 'b';
+        // this.toaster.letterButtons[1].letter = 'd';
+        // this.toaster.letterButtons[2].letter = 'q';
+        // this.toaster.letterButtons[3].letter = 'j';
+        // this.toaster.letterButtons[4].letter = 'y';
 
         // this.toaster.letterButtons[0].letter = 'a';
         // this.toaster.letterButtons[1].letter = 'b';
