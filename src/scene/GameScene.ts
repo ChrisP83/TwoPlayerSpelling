@@ -88,7 +88,7 @@ export default class GameScene extends Phaser.Scene {
         // this.testToastCreation(); // OK.
         // this.testDraggable(); // OK.
         // this.testHomerFont(); // OK.
-        this.testToasterLettersButtons();// PROGRES.
+        // this.testToasterLettersButtons();// OK.
 
         // this.testToastPooling(); // TODO.
         // this._doGameWon(); // TODO.
