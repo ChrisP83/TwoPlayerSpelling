@@ -4,7 +4,7 @@ import Toast from "../game/Toast";
 import Toaster from "../game/Toaster";
 import Plate from "../game/Plate";
 import ActorsManager from "../game/ActorsManager";
-import { Power2, Power3, TweenMax } from "gsap";
+import { Elastic, Power2, Power3, TweenMax } from "gsap";
 import { iGameData } from "../game/iGameData";
 
 export default class GameScene extends Phaser.Scene {
@@ -41,6 +41,7 @@ export default class GameScene extends Phaser.Scene {
 
     // todo: private _gameWonParticles: Phaser.GameObjects.Particles.ParticleEmitter;
     private _isGameOver: boolean = false;
+    private _checkMark: Phaser.GameObjects.Image;
     private _plates: Plate[];
     private _cont: Phaser.GameObjects.Container;
 
@@ -71,6 +72,11 @@ export default class GameScene extends Phaser.Scene {
         this._setupPlates();
         this._setupToaster();
         // this._setupLoafDispenser();
+
+        // Setup the checkmark.
+        this._setupCheckMark();
+
+        this._cont.add(this._checkMark);
         this.toasts = [];
 
         this.fit();
@@ -89,7 +95,7 @@ export default class GameScene extends Phaser.Scene {
         // this.testDraggable(); // OK.
         // this.testHomerFont(); // OK.
         // this.testToasterLettersButtons();// OK.
-
+        // this.testCheckMark();// OK.
         // this.testToastPooling(); // TODO.
         // this._doGameWon(); // TODO.
     }
@@ -104,7 +110,7 @@ export default class GameScene extends Phaser.Scene {
         let plate2 = new Plate(this).setXY(770, 300);
         let plate3 = new Plate(this).setXY(1262, 300);
 
-        this._plates = [plate1, plate2, plate3];
+        this._plates = [plate3, plate2, plate1];
         this._cont.add([plate1.spr, plate2.spr, plate3.spr]);
     }
 
@@ -133,6 +139,14 @@ export default class GameScene extends Phaser.Scene {
             this.words = Object.keys(this.gameData.words);
         }
         Phaser.Utils.Array.Shuffle(this.words);
+    }
+
+    private _setupCheckMark() {
+        this._checkMark = this.add.image(0, 0, GG.KEYS.CHECK);
+        this._checkMark.x = GG.GAME_DIMS.halfWidth;
+        this._checkMark.y = GG.GAME_DIMS.halfHeight;
+        this._checkMark.angle = -180;
+        this._checkMark.visible = false;
     }
 
     //// start, update.
@@ -219,6 +233,66 @@ export default class GameScene extends Phaser.Scene {
         // TODO: GG.soundManager.playSound(GG.KEYS.SFX.GAME_WON);
     }
 
+    private _showCheckMark() {
+        this._checkMark.visible = true;
+        this._checkMark.scale = 0.01;
+        this._checkMark.alpha = 0.01;
+        this._checkMark.angle = 0;
+        this._cont.bringToTop(this._checkMark);
+
+        TweenMax.to(this._checkMark, 1, {
+            scaleX: 0.7,
+            scaleY: 0.7,
+            alpha: 1,
+            ease: Elastic.easeOut.config(1, 0.75),
+            onComplete: () => {
+                TweenMax.to(this._checkMark, 1, {
+                    angle: 180,
+                    ease: Elastic.easeInOut.config(1.5, 0.5),
+                    onComplete: this._setEnabledCheckMarkInput,
+                    onCompleteScope: this
+                });
+            },
+            onCompleteScope: this
+        });
+    }
+
+    private _hideCheckMark() {
+        this._checkMark.visible = true;
+        this._checkMark.scale = 0.7;
+        this._checkMark.alpha = 1;
+        this._checkMark.angle = 180;
+        this._cont.bringToTop(this._checkMark);
+
+        this._setEnabledCheckMarkInput(false);
+
+        TweenMax.to(this._checkMark, 1, {
+            scaleX: 0.01,
+            scaleY: 0.01,
+            alpha: 0.01,
+            ease: Power3.easeIn,
+            onComplete: () => {
+                this._checkMark.visible = false;
+            },
+            onCompleteScope: this
+        });
+    }
+
+    private _setEnabledCheckMarkInput(is_enabled: boolean = true) {
+        if (is_enabled) {
+            this._checkMark.setInteractive({ useHandCursor: true });
+            this._checkMark.on("pointerdown", this._onCheckMarkTap, this);
+        }
+        else {
+            this._checkMark.disableInteractive();
+            this._checkMark.off("pointerdown", this._onCheckMarkTap, this);
+        }
+    }
+
+    private _onCheckMarkTap() {
+        this._hideCheckMark();
+    }
+
     //// game won / lost, scene traversal.
     private _doGameLost() {
         // Pause the lifebar updates.
@@ -270,6 +344,7 @@ export default class GameScene extends Phaser.Scene {
     enableDragging() {
         this.input.on('dragstart', (pointer, game_obj) => {
             this._cont.bringToTop(game_obj);
+            (game_obj.toast as Toast).letter = undefined;
         }, this);
 
         this.input.on('drag', (pointer, game_obj, drag_x, drag_y) => {
@@ -312,7 +387,7 @@ export default class GameScene extends Phaser.Scene {
         for (let i = toaster_letters.length; i < GG.NUM_TOASTER_LETTERS; i++) {
             toaster_letters.push(low_case_alphabet.pop());
         }
-        
+
         // Shuffle the result, otherwise the kids' side might get a clue of where the correct letters "always are" are!
         Phaser.Utils.Array.Shuffle(toaster_letters);
 
@@ -358,8 +433,22 @@ export default class GameScene extends Phaser.Scene {
 
             // Move the toast to the result plate.
             TweenMax.to(toast.spr, 0.25, { x: result_plate.spr.x, y: result_plate.spr.y });
+            result_plate.letter = toast.letter;
+            this._checkWinCondition();
             return;
         }
+    }
+
+    private _checkWinCondition() {
+        for (let i = this._plates.length - 1; i >= 0; i--) {
+            const plate = this._plates[i];
+            if (this.word.charAt(i) != plate.letter) {
+                return false;
+            }
+        }
+
+        this._showCheckMark();
+        return true;
     }
 
     launchToastLetter(
@@ -456,6 +545,10 @@ export default class GameScene extends Phaser.Scene {
         let bt3 = this.add.bitmapText(200, 700, GG.KEYS.FONTS.HOMER_LEARNING_BOLD, "qrs tuv wxyz");
         bt3.tint = 0xF4754E;
 
+    }
+
+    testCheckMark() {
+        this._showCheckMark();
     }
 
     testToasterLettersButtons() {

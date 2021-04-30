@@ -23,6 +23,14 @@ export default class Toast {
 
     private _frames: Phaser.Animations.AnimationFrame[];
 
+    private _isOnPlate: boolean = false;
+    public get isOnPlate(): boolean {
+        return this._isOnPlate;
+    }
+    public set isOnPlate(value: boolean) {
+        this._isOnPlate = value;
+    }
+
     /**
      * Constructs a new toast sprite and makes enables interactivity by default.
      * @param scene [Phaser.Scene] the scene the spr belongs to (also created by).
@@ -31,6 +39,8 @@ export default class Toast {
         this.spr = scene.add.sprite(0, 0, GG.KEYS.ATLAS_SS1)
             .play(GG.KEYS.ANIMS.TOAST_LETTERS)
             .stop();
+        //@ts-ignore;
+        this.spr.toast = this;
         this.scene = scene;
 
         // Interactive by default.
@@ -134,6 +144,7 @@ export default class Toast {
     }
 
     set letter(new_letter: string) {
+        if (!new_letter) { return };
         let index: number = TOAST_LETTER_FRAME_INDEXES[new_letter.toUpperCase()];
 
         if (index != 0 && !index) {

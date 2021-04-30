@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import * as GG from '../GG';
-import  Toast  from "./Toast";
+import Toast from "./Toast";
 
 export default class Plate {
 
@@ -20,6 +20,11 @@ export default class Plate {
     toast: Toast;
 
     /**
+     * The letter assigned by placing a Toast on.
+     */
+    private _letter: string;
+
+    /**
      * Creates a new Plate sprite encapsulated in this object.
      * @param scene [Phaser.Scene] the scene the spr belongs to (also created by).
      */
@@ -37,13 +42,21 @@ export default class Plate {
         return this;
     }
 
-    canDropToast(): boolean {
-        return !this.toast;
+    set letter(new_letter: string) {
+        this._letter = new_letter;
     }
 
-    dropToast(new_toast: Toast) {
-        this.toast = new_toast;
-
-        // TODO: Animate the toast landing on the plate.
+    get letter(): string {
+        return this._letter;
     }
+
+    // canDropToast(): boolean {
+    //     return !this.toast;
+    // }
+
+    // dropToast(new_toast: Toast) {
+    //     this.toast = new_toast;
+
+    //     // TODO: Animate the toast landing on the plate.
+    // }
 }

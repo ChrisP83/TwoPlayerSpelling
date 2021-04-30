@@ -7,7 +7,9 @@
 
 export const GAME_DIMS = {
     width: 1536,
-    height: 2048
+    halfWidth: 768,
+    height: 2048,
+    halfHeight: 1024
 }
 
 /**
@@ -93,6 +95,7 @@ export const KEYS = {
         TOAST_LETTERS: 'toast',
     },
 
+    CHECK: 'check',
     PLATE: 'plate0000',
     LOAF: 'toast0000',
     // LOAF_DISPENSER: 'loaf_dispenser0000',

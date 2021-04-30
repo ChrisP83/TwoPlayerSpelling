@@ -11,7 +11,7 @@ export class LoadScene extends Phaser.Scene {
     preload() {
         this.load.bitmapFont(GG.KEYS.FONTS.HOMER_LEARNING_BOLD,
                 "./assets/fonts/HOMERLearningFont-Bold-size240_0.png", "./assets/fonts/HOMERLearningFont-Bold-size240.fnt");
-
+        this.load.image(GG.KEYS.CHECK, "./assets/img/Check.png");
         this.load.atlas(GG.KEYS.ATLAS_SS1, "./assets/img/Spritesheet1.png", "./assets/img/Spritesheet1.json");
         this.load.json(GG.KEYS.JSON_DATA, "./assets/data/audios.json");
 
